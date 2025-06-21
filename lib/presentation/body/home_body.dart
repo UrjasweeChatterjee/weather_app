@@ -58,7 +58,7 @@ class _HomeBodyState extends State<HomeBody> {
         alignment: Alignment.bottomCenter,
         children: [
           Container(
-            height: 73,
+            height: 85,
             decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage("assets/images/Rectangle 364.png"),
@@ -67,7 +67,7 @@ class _HomeBodyState extends State<HomeBody> {
             ),
           ),
           Container(
-            height: 73,
+            height: 75,
             decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage("assets/images/Subtract.png"),

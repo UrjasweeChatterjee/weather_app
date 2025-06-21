@@ -27,8 +27,8 @@ class WeatherCard extends StatelessWidget {
     return Stack(
       children: [
         Container(
-          height: 147,
-          margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+          height: 167,
+          margin: const EdgeInsets.symmetric(vertical: 15, horizontal: 16),
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             image: const DecorationImage(
@@ -50,18 +50,21 @@ class WeatherCard extends StatelessWidget {
               ),
               Text(
                 "H: $high  L: $low",
-                style: const TextStyle(color: Colors.white70, fontSize: 8),
+                style: const TextStyle(color: Colors.white70, fontSize: 13),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     location,
-                    style: const TextStyle(fontSize: 12, color: Colors.white),
+                    style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.white),
                   ),
                   Text(
                     weather,
-                    style: const TextStyle(fontSize: 12, color: Colors.white),
+                    style: const TextStyle(fontSize: 13, color: Colors.white),
                   ),
                 ],
               ),

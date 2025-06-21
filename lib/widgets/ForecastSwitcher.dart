@@ -142,7 +142,7 @@ class _DraggableForecastSwitcherSheetState
               final data = isHourly ? hourlyData[index] : weeklyData[index];
               final isNowOrToday =
                   (isHourly ? data["time"] : data["day"]) == "Now" ||
-                  (isHourly ? data["time"] : data["day"]) == "Today";
+                      (isHourly ? data["time"] : data["day"]) == "Today";
 
               return Container(
                 margin: const EdgeInsets.all(8),
@@ -208,13 +208,8 @@ class _DraggableForecastSwitcherSheetState
             },
           ),
         ),
-
-        const SizedBox(height: 20),
-        const Text(
-          'More info will appear when expanded...',
-          style: TextStyle(color: Colors.white60),
-        ),
-        const SizedBox(height: 300), // Placeholder for expanded content
+        // TO:DO Weather components
+        // const SizedBox(height: 300), // Placeholder for expanded content
       ],
     );
   }
