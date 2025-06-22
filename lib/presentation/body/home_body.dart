@@ -52,7 +52,7 @@ class _HomeBodyState extends State<HomeBody> {
         alignment: Alignment.bottomCenter,
         children: [
           Container(
-            height: 85,
+            height: 82,
             decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage("assets/images/Rectangle 364.png"),

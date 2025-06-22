@@ -1,12 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import '../../controllers/weather_controller.dart';
 import '../../widgets/weather_card.dart';
 
 class LocationListScreenBody extends StatelessWidget {
   LocationListScreenBody({super.key});
 
-  final WeatherController controller = Get.put(WeatherController());
+  // final WeatherController controller = Get.put(WeatherController());
+  final WeatherController controller = Get.find();
+
+  void _handleWeatherSelection(int index) {
+    if (controller.isSelectionMode.value) {
+      controller.toggleSelection(index);
+    } else {
+      final location = controller.weatherData[index]["location"];
+      controller.fetchWeather(location);
+      Get.back(); // Return to home screen
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,11 +96,7 @@ class LocationListScreenBody extends StatelessWidget {
 
                         return Obx(
                           () => GestureDetector(
-                            onTap: () {
-                              if (controller.isSelectionMode.value) {
-                                controller.toggleSelection(realIndex);
-                              }
-                            },
+                            onTap: () => _handleWeatherSelection(realIndex),
                             child: WeatherCard(
                               temperature: data["temperature"]!,
                               imagePath: data["image"]!,
