@@ -327,7 +327,11 @@ class _DraggableForecastSwitcherSheetState
                 ),
               ),
             ),
-            const SizedBox(height: 120),
+
+            // Weather Info Grid Cards
+            const SizedBox(height: 20),
+            _buildWeatherInfoGrid(),
+            const SizedBox(height: 20),
           ],
         ),
       ],
@@ -412,6 +416,107 @@ class _DraggableForecastSwitcherSheetState
               color: Colors.white,
               fontSize: 14,
               fontWeight: FontWeight.w500,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildWeatherInfoGrid() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: GridView.count(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        crossAxisCount: 2,
+        childAspectRatio: 1.0,
+        crossAxisSpacing: 12,
+        mainAxisSpacing: 12,
+        children: [
+          _buildWeatherInfoCard(
+            title: "UV INDEX",
+            value: "4 Moderate",
+            icon: Icons.wb_sunny,
+          ),
+          _buildWeatherInfoCard(
+            title: "SUNRISE",
+            value: "5:28 AM\nSunset: 7:25PM",
+            icon: Icons.brightness_6,
+          ),
+          _buildWeatherInfoCard(
+            title: "WIND",
+            value: "N\n9.7 km/h",
+            icon: Icons.air,
+          ),
+          _buildWeatherInfoCard(
+            title: "FEELS LIKE",
+            value: "19°\nSimilar to the actual temperature.",
+            icon: Icons.thermostat,
+          ),
+          _buildWeatherInfoCard(
+            title: "VISIBILITY",
+            value: "8 km",
+            icon: Icons.visibility,
+          ),
+          _buildWeatherInfoCard(
+            title: "RAINFALL",
+            value: "1.8 mm in last hour\n1.2 mm expected in next 24h.",
+            icon: Icons.water_drop,
+          ),
+          _buildWeatherInfoCard(
+            title: "HUMIDITY",
+            value: "90%\nThe dew point is 17 right now.",
+            icon: Icons.water,
+          ),
+          _buildWeatherInfoCard(
+            title: "PRESSURE",
+            value: "1012 hPa",
+            icon: Icons.speed,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildWeatherInfoCard({
+    required String title,
+    required String value,
+    required IconData icon,
+  }) {
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: const Color(0xFF48319D).withOpacity(0.6),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+          color: const Color.fromARGB(255, 116, 74, 190),
+          width: 0.5,
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(icon, size: 16, color: Colors.white70),
+              const SizedBox(width: 6),
+              Text(
+                title,
+                style: const TextStyle(
+                  color: Colors.white70,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          Text(
+            value,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 14,
             ),
           ),
         ],
