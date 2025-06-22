@@ -11,6 +11,7 @@ class DraggableForecastSwitcherSheet extends StatefulWidget {
 class _DraggableForecastSwitcherSheetState
     extends State<DraggableForecastSwitcherSheet> {
   bool isHourly = true;
+  bool showAirQualityDetails = false;
 
   final List<Map<String, dynamic>> hourlyData = List.generate(
     12,
@@ -55,12 +56,24 @@ class _DraggableForecastSwitcherSheetState
     },
   ];
 
+  // Air quality data
+  final Map<String, dynamic> airQualityData = {
+    "index": 3,
+    "level": "Low Health Risk",
+    "pm25": 12,
+    "pm10": 24,
+    "o3": 45,
+    "no2": 18,
+    "so2": 4,
+    "co": 0.6,
+  };
+
   @override
   Widget build(BuildContext context) {
     return DraggableScrollableSheet(
       initialChildSize: 0.41,
       minChildSize: 0.41,
-      maxChildSize: .85,
+      maxChildSize: 1.0,
       builder: (context, scrollController) {
         return Stack(
           children: [
@@ -208,8 +221,115 @@ class _DraggableForecastSwitcherSheetState
             },
           ),
         ),
-        // TO:DO Weather components
-        // const SizedBox(height: 300), // Placeholder for expanded content
+
+        // Air Quality Section
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: 20),
+            const Padding(
+              padding: EdgeInsets.only(left: 16),
+              child: Text(
+                "AIR QUALITY",
+                style: TextStyle(
+                  color: Colors.white70,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+            const SizedBox(height: 8),
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  showAirQualityDetails = !showAirQualityDetails;
+                });
+              },
+              child: Container(
+                margin: const EdgeInsets.symmetric(horizontal: 16),
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF48319D).withOpacity(0.6),
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(
+                    color: const Color.fromARGB(255, 116, 74, 190),
+                    width: 0.5,
+                  ),
+                ),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "${airQualityData['index']}-${airQualityData['level']}",
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 12, vertical: 6),
+                              decoration: BoxDecoration(
+                                color: const Color(0xFF1F1D47),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: Text(
+                                showAirQualityDetails
+                                    ? "Hide details"
+                                    : "See more",
+                                style: const TextStyle(
+                                  color: Colors.white70,
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        // Air quality visual indicator
+                        Container(
+                          width: 80,
+                          height: 80,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: _getAirQualityColor(airQualityData['index'])
+                                .withOpacity(0.2),
+                            border: Border.all(
+                              color:
+                                  _getAirQualityColor(airQualityData['index']),
+                              width: 2,
+                            ),
+                          ),
+                          child: Center(
+                            child: Text(
+                              airQualityData['index'].toString(),
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    if (showAirQualityDetails) ...[
+                      const SizedBox(height: 16),
+                      _buildAirQualityDetails(),
+                    ],
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 120),
+          ],
+        ),
       ],
     );
   }
@@ -258,5 +378,51 @@ class _DraggableForecastSwitcherSheetState
         ),
       ),
     );
+  }
+
+  Widget _buildAirQualityDetails() {
+    return Column(
+      children: [
+        _buildAirQualityRow("PM2.5", airQualityData['pm25'], "µg/m³"),
+        _buildAirQualityRow("PM10", airQualityData['pm10'], "µg/m³"),
+        _buildAirQualityRow("O₃", airQualityData['o3'], "µg/m³"),
+        _buildAirQualityRow("NO₂", airQualityData['no2'], "µg/m³"),
+        _buildAirQualityRow("SO₂", airQualityData['so2'], "µg/m³"),
+        _buildAirQualityRow("CO", airQualityData['co'], "mg/m³"),
+      ],
+    );
+  }
+
+  Widget _buildAirQualityRow(String label, dynamic value, String unit) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            label,
+            style: const TextStyle(
+              color: Colors.white70,
+              fontSize: 14,
+            ),
+          ),
+          Text(
+            "$value $unit",
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Color _getAirQualityColor(int index) {
+    if (index <= 2) return Colors.green;
+    if (index <= 4) return Colors.yellow;
+    if (index <= 6) return Colors.orange;
+    return Colors.red;
   }
 }

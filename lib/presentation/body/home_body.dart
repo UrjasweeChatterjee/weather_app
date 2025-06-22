@@ -46,12 +46,6 @@ class _HomeBodyState extends State<HomeBody> {
             ),
           ),
           Center(child: DraggableForecastSwitcherSheet()),
-          // Positioned(
-          //   top: 425,
-          //   left: 0,
-          //   right: 0,
-          //   child: Center(child: DraggableForecastSwitcherSheet()),
-          // ),
         ],
       ),
       bottomNavigationBar: Stack(
