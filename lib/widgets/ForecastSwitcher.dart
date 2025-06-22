@@ -11,7 +11,6 @@ class DraggableForecastSwitcherSheet extends StatefulWidget {
 class _DraggableForecastSwitcherSheetState
     extends State<DraggableForecastSwitcherSheet> {
   bool isHourly = true;
-  bool showAirQualityDetails = false;
 
   final List<Map<String, dynamic>> hourlyData = List.generate(
     12,
@@ -56,18 +55,6 @@ class _DraggableForecastSwitcherSheetState
     },
   ];
 
-  // Air quality data
-  final Map<String, dynamic> airQualityData = {
-    "index": 3,
-    "level": "Low Health Risk",
-    "pm25": 12,
-    "pm10": 24,
-    "o3": 45,
-    "no2": 18,
-    "so2": 4,
-    "co": 0.6,
-  };
-
   @override
   Widget build(BuildContext context) {
     return DraggableScrollableSheet(
@@ -77,7 +64,6 @@ class _DraggableForecastSwitcherSheetState
       builder: (context, scrollController) {
         return Stack(
           children: [
-            // Main container with rounded corners and gradient background
             Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
@@ -110,7 +96,6 @@ class _DraggableForecastSwitcherSheetState
       controller: scrollController,
       padding: const EdgeInsets.only(left: 16, right: 16, bottom: 12),
       children: [
-        // Drag handle
         Center(
           child: Container(
             width: 50,
@@ -122,8 +107,6 @@ class _DraggableForecastSwitcherSheetState
             ),
           ),
         ),
-
-        // Tabs
         Stack(
           alignment: Alignment.bottomCenter,
           children: [
@@ -142,10 +125,7 @@ class _DraggableForecastSwitcherSheetState
             Container(height: 2, color: Colors.white24),
           ],
         ),
-
         const SizedBox(height: 16),
-
-        // Forecast cards
         SizedBox(
           height: 151,
           child: ListView.builder(
@@ -156,7 +136,6 @@ class _DraggableForecastSwitcherSheetState
               final isNowOrToday =
                   (isHourly ? data["time"] : data["day"]) == "Now" ||
                       (isHourly ? data["time"] : data["day"]) == "Today";
-
               return Container(
                 margin: const EdgeInsets.all(8),
                 padding: const EdgeInsets.symmetric(
@@ -221,7 +200,6 @@ class _DraggableForecastSwitcherSheetState
             },
           ),
         ),
-
         // Air Quality Section
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -245,7 +223,7 @@ class _DraggableForecastSwitcherSheetState
                 ),
               ),
               padding: EdgeInsets.all(16),
-              margin: EdgeInsets.symmetric(horizontal: 16),
+              margin: EdgeInsets.symmetric(horizontal: 4),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -309,103 +287,13 @@ class _DraggableForecastSwitcherSheetState
                 ],
               ),
             ),
-
-            // const SizedBox(height: 8),
-            // GestureDetector(
-            //   onTap: () {
-            //     setState(() {
-            //       showAirQualityDetails = !showAirQualityDetails;
-            //     });
-            //   },
-            //   child: Container(
-            //     margin: const EdgeInsets.symmetric(horizontal: 16),
-            //     padding: const EdgeInsets.all(16),
-            //     decoration: BoxDecoration(
-            //       color: const Color(0xFF48319D).withOpacity(0.6),
-            //       borderRadius: BorderRadius.circular(20),
-            //       border: Border.all(
-            //         color: const Color.fromARGB(255, 116, 74, 190),
-            //         width: 0.5,
-            //       ),
-            //     ),
-            //     child: Column(
-            //       children: [
-            //         Row(
-            //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //           children: [
-            //             Column(
-            //               crossAxisAlignment: CrossAxisAlignment.start,
-            //               children: [
-            //                 Text(
-            //                   "${airQualityData['index']}-${airQualityData['level']}",
-            //                   style: const TextStyle(
-            //                     color: Colors.white,
-            //                     fontSize: 16,
-            //                     fontWeight: FontWeight.w600,
-            //                   ),
-            //                 ),
-            //                 const SizedBox(height: 8),
-            //                 Container(
-            //                   padding: const EdgeInsets.symmetric(
-            //                       horizontal: 12, vertical: 6),
-            //                   decoration: BoxDecoration(
-            //                     color: const Color(0xFF1F1D47),
-            //                     borderRadius: BorderRadius.circular(20),
-            //                   ),
-            //                   child: Text(
-            //                     showAirQualityDetails
-            //                         ? "Hide details"
-            //                         : "See more",
-            //                     style: const TextStyle(
-            //                       color: Colors.white70,
-            //                       fontSize: 12,
-            //                     ),
-            //                   ),
-            //                 ),
-            //               ],
-            //             ),
-            //             // Air quality visual indicator
-            //             Container(
-            //               width: 80,
-            //               height: 80,
-            //               decoration: BoxDecoration(
-            //                 shape: BoxShape.circle,
-            //                 color: _getAirQualityColor(airQualityData['index'])
-            //                     .withOpacity(0.2),
-            //                 border: Border.all(
-            //                   color:
-            //                       _getAirQualityColor(airQualityData['index']),
-            //                   width: 2,
-            //                 ),
-            //               ),
-            //               child: Center(
-            //                 child: Text(
-            //                   airQualityData['index'].toString(),
-            //                   style: const TextStyle(
-            //                     color: Colors.white,
-            //                     fontSize: 24,
-            //                     fontWeight: FontWeight.bold,
-            //                   ),
-            //                 ),
-            //               ),
-            //             ),
-            //           ],
-            //         ),
-            //         if (showAirQualityDetails) ...[
-            //           const SizedBox(height: 16),
-            //           _buildAirQualityDetails(),
-            //         ],
-            //       ],
-            //     ),
-            //   ),
-            // ),
-
             // Weather Info Grid Cards
             const SizedBox(height: 20),
-            _buildWeatherInfoGrid(),
+            _buildEnhancedWeatherInfoGrid(),
             const SizedBox(height: 20),
           ],
         ),
+        const SizedBox(height: 60),
       ],
     );
   }
@@ -456,150 +344,117 @@ class _DraggableForecastSwitcherSheetState
     );
   }
 
-  Widget _buildAirQualityDetails() {
-    return Column(
-      children: [
-        _buildAirQualityRow("PM2.5", airQualityData['pm25'], "µg/m³"),
-        _buildAirQualityRow("PM10", airQualityData['pm10'], "µg/m³"),
-        _buildAirQualityRow("O₃", airQualityData['o3'], "µg/m³"),
-        _buildAirQualityRow("NO₂", airQualityData['no2'], "µg/m³"),
-        _buildAirQualityRow("SO₂", airQualityData['so2'], "µg/m³"),
-        _buildAirQualityRow("CO", airQualityData['co'], "mg/m³"),
-      ],
-    );
-  }
+  Widget _buildEnhancedWeatherInfoGrid() {
+    final List<Map<String, dynamic>> data = [
+      {
+        "title": "UV INDEX",
+        "value": "4",
+        "desc": "Moderate",
+        "icon": Icons.wb_sunny
+      },
+      {
+        "title": "SUNRISE",
+        "value": "5:28 AM",
+        "desc": "Sunset: 7:25PM",
+        "icon": Icons.brightness_6
+      },
+      {"title": "WIND", "value": "9.7 km/h", "desc": "N", "icon": Icons.air},
+      {
+        "title": "RAINFALL",
+        "value": "1.8 mm",
+        "desc": "1.2 mm expected in next 24h.",
+        "icon": Icons.water_drop
+      },
+      {
+        "title": "FEELS LIKE",
+        "value": "19°",
+        "desc": "Similar to the actual temperature.",
+        "icon": Icons.thermostat
+      },
+      {
+        "title": "HUMIDITY",
+        "value": "90%",
+        "desc": "The dew point is 17 right now.",
+        "icon": Icons.water
+      },
+      {
+        "title": "VISIBILITY",
+        "value": "8 km",
+        "desc": "Similar to the actual temperature.",
+        "icon": Icons.visibility
+      },
+      {
+        "title": "PRESSURE",
+        "value": "1012 hPa",
+        "desc": "",
+        "icon": Icons.speed
+      },
+    ];
 
-  Widget _buildAirQualityRow(String label, dynamic value, String unit) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            label,
-            style: const TextStyle(
-              color: Colors.white70,
-              fontSize: 14,
-            ),
-          ),
-          Text(
-            "$value $unit",
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildWeatherInfoGrid() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: GridView.count(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
+    return GridView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      padding: const EdgeInsets.symmetric(horizontal: 4),
+      itemCount: data.length,
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        childAspectRatio: 1.0,
         crossAxisSpacing: 12,
         mainAxisSpacing: 12,
-        children: [
-          _buildWeatherInfoCard(
-            title: "UV INDEX",
-            value: "4 Moderate",
-            icon: Icons.wb_sunny,
-          ),
-          _buildWeatherInfoCard(
-            title: "SUNRISE",
-            value: "5:28 AM\nSunset: 7:25PM",
-            icon: Icons.brightness_6,
-          ),
-          _buildWeatherInfoCard(
-            title: "WIND",
-            value: "N\n9.7 km/h",
-            icon: Icons.air,
-          ),
-          _buildWeatherInfoCard(
-            title: "FEELS LIKE",
-            value: "19°\nSimilar to the actual temperature.",
-            icon: Icons.thermostat,
-          ),
-          _buildWeatherInfoCard(
-            title: "VISIBILITY",
-            value: "8 km",
-            icon: Icons.visibility,
-          ),
-          _buildWeatherInfoCard(
-            title: "RAINFALL",
-            value: "1.8 mm in last hour\n1.2 mm expected in next 24h.",
-            icon: Icons.water_drop,
-          ),
-          _buildWeatherInfoCard(
-            title: "HUMIDITY",
-            value: "90%\nThe dew point is 17 right now.",
-            icon: Icons.water,
-          ),
-          _buildWeatherInfoCard(
-            title: "PRESSURE",
-            value: "1012 hPa",
-            icon: Icons.speed,
-          ),
-        ],
+        childAspectRatio: 1.2,
       ),
-    );
-  }
-
-  Widget _buildWeatherInfoCard({
-    required String title,
-    required String value,
-    required IconData icon,
-  }) {
-    return Container(
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: const Color(0xFF292454),
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(
-          color: const Color.fromARGB(255, 116, 74, 190),
-          width: 0.5,
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Icon(icon, size: 16, color: Colors.white70),
-              const SizedBox(width: 6),
-              Text(
-                title,
-                style: const TextStyle(
-                  color: Colors.white70,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 8),
-          Text(
-            value,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 14,
+      itemBuilder: (context, index) {
+        final item = data[index];
+        return Container(
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: const Color(0xFF292454),
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(
+              color: const Color.fromARGB(255, 116, 74, 190),
+              width: 0.5,
             ),
           ),
-        ],
-      ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Icon(item['icon'], size: 16, color: Colors.white70),
+                  const SizedBox(width: 6),
+                  Text(
+                    item['title'],
+                    style: const TextStyle(
+                      color: Colors.white70,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
+              Text(
+                item['value'],
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              if (item['desc'] != null && item['desc'] != "")
+                Padding(
+                  padding: const EdgeInsets.only(top: 4),
+                  child: Text(
+                    item['desc'],
+                    style: const TextStyle(
+                      color: Colors.white70,
+                      fontSize: 12,
+                    ),
+                  ),
+                ),
+            ],
+          ),
+        );
+      },
     );
-  }
-
-  Color _getAirQualityColor(int index) {
-    if (index <= 2) return Colors.green;
-    if (index <= 4) return Colors.yellow;
-    if (index <= 6) return Colors.orange;
-    return Colors.red;
   }
 }
