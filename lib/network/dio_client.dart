@@ -21,4 +21,14 @@ class DioClient {
       throw Exception("Failed to fetch weather: $e");
     }
   }
+
+  Future<WeatherResponse> getWeatherByCoordinates(
+      double lat, double lon) async {
+    try {
+      return await apiClient.getWeatherByCoordinates(
+          lat, lon, "metric", _apiKey);
+    } catch (e) {
+      throw Exception("Failed to fetch weather by coordinates: $e");
+    }
+  }
 }

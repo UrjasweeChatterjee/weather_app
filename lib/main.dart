@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
-import 'app.dart';
+import 'package:get/get.dart';
+import 'package:weather_app/app.dart';
+import 'package:weather_app/controllers/weather_controller.dart';
 
 void main() {
-  runApp(MyApp());
+  // Initialize controllers before running app
+  Get.put(WeatherController());
+
+  runApp(const MyApp());
 }

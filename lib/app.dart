@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'presentation/screens/home_screen.dart';
 import 'package:get/get.dart';
+import 'package:weather_app/presentation/screens/home_screen.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -8,13 +8,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'Daily Tasks',
+      // Must use GetMaterialApp
+      title: 'Weather App',
       theme: ThemeData(
-        primarySwatch: Colors.indigo,
-        inputDecorationTheme: const InputDecorationTheme(
-          filled: true,
-          fillColor: Color(0xFFF1F3F6),
-        ),
+        primarySwatch: Colors.blue,
       ),
       home: const HomeScreen(),
       debugShowCheckedModeBanner: false,
