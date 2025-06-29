@@ -33,6 +33,7 @@ dependencies:
   # Location Services
   geolocator: ^10.0.0
   permission_handler: ^11.3.0
+  firebase_messaging: ^15.2.7
 
 dev_dependencies:
   flutter_test:

@@ -1,9 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:weather_app/presentation/screens/home_screen.dart';
+import 'package:weather_app/services/messaging_service.dart';
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  final messagingService = MessagingService();
+
+  @override
+  void initState() {
+    super.initState();
+    messagingService.init();
+  }
 
   @override
   Widget build(BuildContext context) {
